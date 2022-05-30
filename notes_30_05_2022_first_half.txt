@@ -1,0 +1,183 @@
+https://www.tutorialspoint.com/log4j/log4j_logging_levels.htm
+------------------------------------------
+
+   Interface 
+     |
+     |
+   Controller
+     |
+     |
+     |
+   Service ( Our concern is towards this layer)
+     |
+     |
+   Repository ( Collection API )
+
+packages===>
+interface
+controller
+service
+repository
+exception
+dto
+validation
+--------------------------------------------------------------------------------------------------
+          StudentDTO           StudentDTO         StudentDTO     List<StudentDTO> list=new ArrayList<>();
+Interface===========>Controller==========>Service============>Repository
+                                      (Validator)
+------------------------------------------------------------------------------------------------------
+Validator
+We want to store a student details his roll,name and marks 
+ roll number can be between ====> 1 and 100
+ name should be alphabetic 
+ marks can be between ===> 0 and 100
+----------------------------------------------------------------------------------------
+package com.infosys.crud.interfc;
+
+import com.infosys.crud.controller.StudentController;
+import com.infosys.crud.exception.StudentException;
+import com.infosys.crud.model.StudentDTO;
+
+public class Application {
+public static void main(String args[])
+{
+	try
+	{
+	StudentDTO student=new StudentDTO();
+    StudentController studentController=new StudentController();
+    student.setRoll(1);
+    student.setName("Rajiv");
+    student.setMarks(90);
+    studentController.addStudent(student);
+    System.out.println("SUCCESS");
+	}catch(StudentException ex)
+	{
+		System.out.println(ex.getMessage());
+	}
+    
+   
+	/*
+	 * student.setRoll(1000); student.setName("Rajiv"); student.setMarks(90);
+	 * student.setRoll(1); student.setName("Rajiv123"); student.setMarks(90);
+	 * student.setRoll(1); student.setName("Rajiv"); student.setMarks(900);
+	 */
+    
+}
+}
+---------------------------------------------------------------------------------------------
+package com.infosys.crud.controller;
+
+import com.infosys.crud.exception.StudentException;
+import com.infosys.crud.model.StudentDTO;
+import com.infosys.crud.service.StudentService;
+import com.infosys.crud.service.StudentServiceImpl;
+
+public class StudentController {
+
+	  private StudentService studentService=new StudentServiceImpl();
+	
+	      public void addStudent(StudentDTO student) throws StudentException {
+	    	          studentService.addStudent(student);
+	    	           
+	    	        
+	       }
+	       
+}
+------------------------------------------------------------------------------------------
+package com.infosys.crud.service;
+
+import com.infosys.crud.exception.StudentException;
+import com.infosys.crud.model.StudentDTO;
+
+public interface StudentService {
+
+	void addStudent(StudentDTO student) throws StudentException;
+
+}
+
+
+package com.infosys.crud.service;
+
+import com.infosys.crud.exception.StudentException;
+import com.infosys.crud.model.StudentDTO;
+import com.infosys.crud.repository.StudentRepository;
+import com.infosys.crud.repository.StudentRepositoryImpl;
+import com.infosys.crud.validator.Validator;
+
+public class StudentServiceImpl implements StudentService {
+  // Validation and other bsns logic
+	StudentRepository studentRepo=new StudentRepositoryImpl();
+	public void addStudent(StudentDTO student) throws StudentException {
+	 Validator.validate(student);
+	  studentRepo.addStudent(student);	
+	}
+
+}
+-------------------------------------------------------------------------------------
+
+package com.infosys.crud.repository;
+
+import com.infosys.crud.model.StudentDTO;
+
+public interface StudentRepository {
+ 
+	  void addStudent(StudentDTO student);
+}
+
+
+package com.infosys.crud.repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.infosys.crud.model.StudentDTO;
+
+public class StudentRepositoryImpl implements StudentRepository {
+
+	private List<StudentDTO> studentList=new ArrayList<>();
+	public void addStudent(StudentDTO student) {
+		studentList.add(student);
+		
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------package com.infosys.crud.validator;
+
+import com.infosys.crud.exception.StudentException;
+import com.infosys.crud.model.StudentDTO;
+
+public class Validator {
+
+	public static void validate(StudentDTO student) throws StudentException {
+		if(!(validateRoll(student.getRoll()) &&  validateName(student.getName()) && validateMarks(student.getMarks())             ))
+		{
+			throw new StudentException("Data is incorrect");
+		}
+		
+	}
+
+	private static boolean validateMarks(int marks) {
+		boolean isValidMarks=false;
+		isValidMarks=(marks>=1 && marks<=100)?true:false;
+		return isValidMarks;
+	}
+  // String name="";
+	private static boolean validateName(String name) {
+		boolean isValidName=false;
+		String pattern="[a-zA-Z]+";
+		isValidName=name.matches(pattern);
+		return isValidName;
+	}
+
+	private static boolean validateRoll(int roll) {
+		boolean isValidRoll=false;
+		isValidRoll=(roll>=1 && roll<=100)?true:false;
+		return isValidRoll;
+	}
+
+}
+--------------------------------------------------------------------------------------------------------
+
+
+If everything goes correct , we need to add the student details in a list.
+---------------------------------------------------------------------------------------------------
