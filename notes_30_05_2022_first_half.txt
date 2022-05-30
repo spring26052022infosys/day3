@@ -249,7 +249,7 @@ The @SpringBootApplication annotation indicates that it is a configuration class
  package com.infosys.educator.practice1.service;
  package com.infosys.educator.practice1.repository;
  package com.infosys.educator.practice1.exception;
- package com.infosys.educator.practice1.dto;
+ //package com.infosys.educator.practice1.dto;
  package com.infosys.educator.practice1.validator;
 
  Write a springboot application to check whether the entered string is available in a collection List.
@@ -266,7 +266,7 @@ The @SpringBootApplication annotation indicates that it is a configuration class
   @Repository  
   public class StringRepositoryImpl implements StringRepository {
 
-   List<StringDTO> stringList=new ArrayList<>();   
+   List<String> stringList=new ArrayList<>();   
    public StringRepositoryImpl(){
      stringList.add("hello");
      stringList.add("hi");
@@ -275,7 +275,7 @@ The @SpringBootApplication annotation indicates that it is a configuration class
    }
 
     public boolean searchString(String str) {
-
+                        boolean b=stringList.contains(str);
      }
 
 
@@ -330,7 +330,7 @@ The @SpringBootApplication annotation indicates that it is a configuration class
        } 
 
     }
------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
 
 package com.infosys.educator.practice1.exception; 
 
@@ -338,19 +338,79 @@ package com.infosys.educator.practice1.exception;
 
 
    }
-------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
 
- package com.infosys.educator.practice1.dto;
+/* package com.infosys.educator.practice1.dto;
 
-   public class StringData {
+   public class StringDTO{
     private String string;
    // setters/getters;
+   } */
+ ---------------------------------------------------------------------------------------------------------
+ Various Logging level
+
+  ALL
+  DEBUG
+  INFO
+  WARN
+  ERROR
+  FATAL
+
+If we are setting the level as INFO, it will show the error associated INFO, WARN, ERROR and FATAL.
+If we are setting the level as DEBUG, it whiil shoe the error associated with DEBUG,INFO,WARN, ERROR and FATAL.
+
+ INFO
+-------------------------------------------------------------------------------------------------
+When we started with Spring Framework:-
+1) Basic CRUD application with different layers.
+2) Spring with Java as configuration  
+  
+   public class Hello {
+    public String greet(){
+    System.out.println("Hello");
+    }
    }
- ------------------------------------------------------------------------------------------
+
+    @Configuration
+   public class Configuration {
+      public Hello hello(){
+        return new Hello();
+   }
+  }
+3) Spring with Java Annotation as configuration
+
+   @Component
+   public class Hello{
+
+   }
 
 
+  @Configuration
+  @ComponentScan(basePackages="com.infosys.demo.bean")
+   public class Configuration{
 
+   }
 
+4) SpringBoot 
 
+  @SpringBootApplication
+  public class MyApplication implement CommandLineRunner{
+    @Autowired
+    private StringController controller; 
+ 
+    @Autowired
+    private Environment env;
+    private static final log LOGGER=LoggerFactory.getLog(MyApplication.class);
+   public static void main(String args[]) {
+         SpringApplication.run(MyApplication.class,args);
+     }
+    public void run(String ... args){
+       boolean found=controller.search("Hi");
+       System.out.println(env.getProperty(message));
+        
+ }
+  }
 
-       
+  application.properites
+  message="Hello friends";
+---------------------------------------------------------------------------------------------------------       
