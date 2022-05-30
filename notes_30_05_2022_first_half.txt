@@ -400,7 +400,7 @@ When we started with Spring Framework:-
  
     @Autowired
     private Environment env;
-    private static final log LOGGER=LoggerFactory.getLog(MyApplication.class);
+    private static final log LOGGER=LogFactory.getLog(MyApplication.class);
    public static void main(String args[]) {
          SpringApplication.run(MyApplication.class,args);
      }
