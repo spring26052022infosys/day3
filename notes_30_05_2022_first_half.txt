@@ -257,6 +257,11 @@ The @SpringBootApplication annotation indicates that it is a configuration class
  In validation we have to check the entered string for search has all the characters as alphabets.
 
   package com.infosys.educator.practice1.repository;
+  public interface StringRepository{
+       boolean searchString(String str);
+     }
+
+  package com.infosys.educator.practice1.repository;
 
   @Repository  
   public class StringRepositoryImpl implements StringRepository {
@@ -276,11 +281,63 @@ The @SpringBootApplication annotation indicates that it is a configuration class
 
   }
 
+--------------------------------------------------------------------------------------------------
+
+
+ package com.infosys.educator.practice1.service;
+  public interface StringService{
+       boolean searchString(String str);
+     }
+
+  package com.infosys.educator.practice1.service;
+
+  @Service 
+  public class StringServiceImpl implements StringService {
+
+     @Autowired
+     private StringRepository stringRepository;
+
+    public boolean searchString(String str) {
+
+     }
+
+
+  }
+
 -------------------------------------------------------------------------------
 
-  
+   package com.infosys.educator.practice1.controller;
+
+  @Controller
+  public class StringController {
+
+     @Autowired
+     private StringService stringService;
+
+    public boolean searchString(String str) {
+
+     }
+
+  }
 
 
+   package com.infosys.educator.practice1.validator;
 
+   public class Validator {
+   
+      public static boolean validate(String str){
+
+       } 
+
+    }
+-----------------------------------------------------------------------------
+
+package com.infosys.educator.practice1.exception; 
+
+   public class StringNotValidException extends Exception {
+
+
+   }
+------------------------------------------------------------------------------------------------------
 
        
