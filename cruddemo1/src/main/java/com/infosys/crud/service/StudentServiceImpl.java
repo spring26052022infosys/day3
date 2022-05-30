@@ -9,10 +9,15 @@ import com.infosys.crud.validator.Validator;
 public class StudentServiceImpl implements StudentService {
   // Validation and other bsns logic
 	StudentRepository studentRepo=new StudentRepositoryImpl();
-	public void addStudent(StudentDTO student) throws StudentException {
-	 Validator.validate(student);
-	 studentRepo.addStudent(student);
-		
+	public String addStudent(StudentDTO student) throws StudentException {
+	boolean isAdded;
+	String status="ERROR";
+	Validator.validate(student);
+	isAdded=studentRepo.addStudent(student);
+    if(isAdded) {
+    	status="SUCCESS";
+    }
+	
+    return status;
 	}
-
-}
+	}

@@ -8,9 +8,11 @@ import com.infosys.crud.model.StudentDTO;
 public class StudentRepositoryImpl implements StudentRepository {
 
 	private List<StudentDTO> studentList=new ArrayList<>();
-	public void addStudent(StudentDTO student) {
-		studentList.add(student);
+	public boolean addStudent(StudentDTO student) {
 		
+		boolean isAdded=studentList.add(student);
+		return isAdded;
+	    	  
 	}
 
 }

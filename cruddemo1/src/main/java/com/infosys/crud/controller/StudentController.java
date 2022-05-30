@@ -9,9 +9,9 @@ public class StudentController {
 
 	  private StudentService studentService=new StudentServiceImpl();
 	
-	      public void addStudent(StudentDTO student) throws StudentException {
-	    	          studentService.addStudent(student);
-	    	           
+	      public String addStudent(StudentDTO student) throws StudentException {
+	    	   String status=studentService.addStudent(student);
+	    	    return status;       
 	    	        
 	       }
 	       

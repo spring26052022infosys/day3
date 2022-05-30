@@ -5,6 +5,6 @@ import com.infosys.crud.model.StudentDTO;
 
 public interface StudentService {
 
-	void addStudent(StudentDTO student) throws StudentException;
+	String addStudent(StudentDTO student) throws StudentException;
 
 }

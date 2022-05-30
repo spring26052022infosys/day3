@@ -17,8 +17,8 @@ public static void main(String args[])
 	 */
    // student.setRoll(1); student.setName("Rajiv123"); student.setMarks(90);
     student.setRoll(1); student.setName("Rajiv"); student.setMarks(900);
-    studentController.addStudent(student);
-    System.out.println("SUCCESS");
+    String status=studentController.addStudent(student);
+    System.out.println(status);
 	}catch(StudentException ex)
 	{
 		System.out.println(ex.getMessage());

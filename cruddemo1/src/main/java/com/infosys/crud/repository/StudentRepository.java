@@ -4,5 +4,5 @@ import com.infosys.crud.model.StudentDTO;
 
 public interface StudentRepository {
  
-	  void addStudent(StudentDTO student);
+	  boolean addStudent(StudentDTO student);
 }

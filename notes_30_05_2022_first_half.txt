@@ -45,11 +45,14 @@ public static void main(String args[])
 	{
 	StudentDTO student=new StudentDTO();
     StudentController studentController=new StudentController();
-    student.setRoll(1);
-    student.setName("Rajiv");
-    student.setMarks(90);
-    studentController.addStudent(student);
-    System.out.println("SUCCESS");
+    //student.setRoll(1000); student.setName("Rajiv"); student.setMarks(90);
+	/*
+	 * student.setRoll(1); student.setName("Rajiv"); student.setMarks(90);
+	 */
+   // student.setRoll(1); student.setName("Rajiv123"); student.setMarks(90);
+    student.setRoll(1); student.setName("Rajiv"); student.setMarks(900);
+    String status=studentController.addStudent(student);
+    System.out.println(status);
 	}catch(StudentException ex)
 	{
 		System.out.println(ex.getMessage());
@@ -64,6 +67,7 @@ public static void main(String args[])
     
 }
 }
+
 ---------------------------------------------------------------------------------------------
 package com.infosys.crud.controller;
 
@@ -76,13 +80,14 @@ public class StudentController {
 
 	  private StudentService studentService=new StudentServiceImpl();
 	
-	      public void addStudent(StudentDTO student) throws StudentException {
-	    	          studentService.addStudent(student);
-	    	           
+	      public String addStudent(StudentDTO student) throws StudentException {
+	    	   String status=studentService.addStudent(student);
+	    	    return status;       
 	    	        
 	       }
 	       
 }
+
 ------------------------------------------------------------------------------------------
 package com.infosys.crud.service;
 
@@ -91,10 +96,11 @@ import com.infosys.crud.model.StudentDTO;
 
 public interface StudentService {
 
-	void addStudent(StudentDTO student) throws StudentException;
+	String addStudent(StudentDTO student) throws StudentException;
 
 }
 
+---------------------------------------------------------------------------------------------------
 
 package com.infosys.crud.service;
 
@@ -107,12 +113,19 @@ import com.infosys.crud.validator.Validator;
 public class StudentServiceImpl implements StudentService {
   // Validation and other bsns logic
 	StudentRepository studentRepo=new StudentRepositoryImpl();
-	public void addStudent(StudentDTO student) throws StudentException {
-	 Validator.validate(student);
-	  studentRepo.addStudent(student);	
+	public String addStudent(StudentDTO student) throws StudentException {
+	boolean isAdded;
+	String status="ERROR";
+	Validator.validate(student);
+	isAdded=studentRepo.addStudent(student);
+    if(isAdded) {
+    	status="SUCCESS";
+    }
+	
+    return status;
+	}
 	}
 
-}
 -------------------------------------------------------------------------------------
 
 package com.infosys.crud.repository;
@@ -121,9 +134,10 @@ import com.infosys.crud.model.StudentDTO;
 
 public interface StudentRepository {
  
-	  void addStudent(StudentDTO student);
+	  boolean addStudent(StudentDTO student);
 }
 
+----------------------------------------------------------------------------
 
 package com.infosys.crud.repository;
 
@@ -135,12 +149,15 @@ import com.infosys.crud.model.StudentDTO;
 public class StudentRepositoryImpl implements StudentRepository {
 
 	private List<StudentDTO> studentList=new ArrayList<>();
-	public void addStudent(StudentDTO student) {
-		studentList.add(student);
+	public boolean addStudent(StudentDTO student) {
 		
+		boolean isAdded=studentList.add(student);
+		return isAdded;
+	    	  
 	}
 
 }
+
 ----------------------------------------------------------------------------------------------------------------package com.infosys.crud.validator;
 
 import com.infosys.crud.exception.StudentException;
@@ -176,8 +193,52 @@ public class Validator {
 	}
 
 }
---------------------------------------------------------------------------------------------------------
+
+
+package com.infosys.crud.exception;
+
+public class StudentException extends Exception {
+   
+	public StudentException(String message)
+	{
+		super(message);
+	}
+}
 
 
 If everything goes correct , we need to add the student details in a list.
+--------------------------------------------------------------------------------------------------------
+Q I am not able to decide the return type of a method?
+A Always try to have some return type for the methods as it will make testing the method easy.
+
+Q How can I create a Spring Boot project?
+A Simply you can take the help of Spring Boot Initializer.
+
+
+
+Q From where we need to bootstrap or start executing our Spring Boot application? 
+
+package com.infy;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class DemoSpringBootApplication  {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(DemoSpringBootApplication.class, args);
+	}
+}
+
+
+The @SpringBootApplication annotation indicates that it is a configuration class and also triggers auto-configuration and component scanning. It is a combination of the following annotations with their default attributes:
+
+@EnableAutoConfiguration – This annotation enables auto-configuration for Spring Boot application which automatically configures your application based on the dependencies that you have added.
+
+@ComponentScan – This enables Spring bean dependency injection feature by using @Autowired annotation. All application components which are annotated with @Component, @Service, @Repository or @Controller are automatically registered as Spring Beans. These beans can be injected by using @Autowired annotation.
+
+@Configuration – This enables Java based configurations for Spring boot application.
+ 
+------------------------------------------------------------------------------------------------------------
+
+ 
 ---------------------------------------------------------------------------------------------------
