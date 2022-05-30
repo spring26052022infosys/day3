@@ -340,4 +340,17 @@ package com.infosys.educator.practice1.exception;
    }
 ------------------------------------------------------------------------------------------------------
 
+ package com.infosys.educator.practice1.dto;
+
+   public class StringData {
+    private String string;
+   // setters/getters;
+   }
+ ------------------------------------------------------------------------------------------
+
+
+
+
+
+
        
